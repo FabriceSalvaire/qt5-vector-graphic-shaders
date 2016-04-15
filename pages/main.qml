@@ -119,11 +119,40 @@ ApplicationWindow {
 
                 model: ListModel {
                     ListElement {
+                        title: qsTr("Marker")
+                        icon: ""
+                        source: "qrc:/pages/Marker.qml"
+                    }
+                    ListElement {
+                        title: qsTr("Arrow Fields")
+                        icon: ""
+                       source: "qrc:/pages/ArrowFields.qml"
+                   }
+                    ListElement {
+                        title: qsTr("Quadratic Bezier")
+                        icon: ""
+                        source: "qrc:/pages/QuadraticBezier.qml"
+                    }
+                    ListElement {
                         title: qsTr("Grid")
                         icon: ""
                         source: "qrc:/pages/Grid.qml"
-                        lock_orientation: false
                     }
+                    ListElement {
+                        title: qsTr("Polar Grid")
+                        icon: ""
+                        source: "qrc:/pages/PolarGrid.qml"
+                    }
+                   ListElement {
+                        title: qsTr("Hammer Grid")
+                        icon: ""
+                        source: "qrc:/pages/HammerGrid.qml"
+                    }
+                    ListElement {
+                        title: qsTr("Transverse Mercator Grid")
+                        icon: ""
+                       source: "qrc:/pages/TransverseMercatorGrid.qml"
+                   }
                 }
 
                 ScrollIndicator.vertical: ScrollIndicator {}

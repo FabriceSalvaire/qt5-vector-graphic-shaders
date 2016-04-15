@@ -58,6 +58,9 @@ void main() {
 "
 
             fragmentShader: "
+// Nicolas P. Rougier (http://www.loria.fr/~rougier)
+// Released under BSD license.
+
 // Uniforms
 // ------------------------------------
 
@@ -163,8 +166,20 @@ float get_tick(float t, float vmin, float vmax, float step)
   return min(max(vmin, tick), vmax);
 }
 
-void main ()
+void main()
 {
+  // vec2 v_texcoord;
+  // if (iResolution.x > iResolution.y) {
+  //   v_texcoord.x = fragCoord.x/iResolution.y - 0.5
+  //     - 0.5*(iResolution.x-iResolution.y)/iResolution.y;
+  //   v_texcoord.y = fragCoord.y/iResolution.y - 0.5;
+  // } else {
+  //   v_texcoord.x = fragCoord.x/iResolution.x - 0.5;
+  //   v_texcoord.y = fragCoord.y/iResolution.x - 0.5
+  //     - 0.5*(iResolution.y-iResolution.x)/iResolution.x;
+  // }
+  // vec2 v_size = u_viewport_resolution.xy;
+
   vec2 NP1 = v_texcoord;
   vec2 P1 = scale_forward(NP1, u_limits1);
   vec2 P2 = transform_inverse(P1);

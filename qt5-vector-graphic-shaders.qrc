@@ -9,7 +9,13 @@
     <file>icons/menu-white@3x.png</file>
     <file>icons/more-vert-white.png</file>
     <file>icons/more-vert-white@3x.png</file>
+    <file>pages/ArrowFields.qml</file>
     <file>pages/Grid.qml</file>
+    <file>pages/HammerGrid.qml</file>
+    <file>pages/Marker.qml</file>
+    <file>pages/PolarGrid.qml</file>
+    <file>pages/QuadraticBezier.qml</file>
+    <file>pages/TransverseMercatorGrid.qml</file>
     <file>pages/main.qml</file>
     <file>qtlabscontrols.conf</file>
   </qresource>
