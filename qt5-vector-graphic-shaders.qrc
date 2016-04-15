@@ -1,0 +1,16 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource prefix="/">
+    <file>icons/arrow-back-white.png</file>
+    <file>icons/arrow-back-white@3x.png</file>
+    <file>icons/explore-black.png</file>
+    <file>icons/explore-black@3x.png</file>
+    <file>icons/menu-white.png</file>
+    <file>icons/menu-white@3x.png</file>
+    <file>icons/more-vert-white.png</file>
+    <file>icons/more-vert-white@3x.png</file>
+    <file>pages/Grid.qml</file>
+    <file>pages/main.qml</file>
+    <file>qtlabscontrols.conf</file>
+  </qresource>
+</RCC>
