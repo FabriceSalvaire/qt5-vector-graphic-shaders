@@ -1,14 +1,14 @@
 # Qt5 Application to test Vector Graphic Shaders
 
-This Qt5/QML application implements OpenGL ES 2.0 GLSL shaders rendering the following vector graphic items: 
+This Qt5/QML application implements OpenGL ES 2.0 GLSL shaders rendering the following vector graphic items (link to the corresponding shadertoy): 
 
-* markers
-* arrow field
-* quadratic bezier curve
-* cartesian grid
-* polar grid
-* hammer grid
-* transverse mercator grid
+* [markers](https://www.shadertoy.com/view/XsXXDX)
+* [arrow field](https://www.shadertoy.com/view/ldlSWj)
+* [quadratic bezier curve](https://www.shadertoy.com/view/4dfSDf)
+* [cartesian grid](https://www.shadertoy.com/view/MdSXRm)
+* [polar grid](https://www.shadertoy.com/view/MsBSRm)
+* [hammer grid](https://www.shadertoy.com/view/ldSXRm)
+* [transverse mercator grid](https://www.shadertoy.com/view/lsSXzm)
 
 This applicatation requires Qt 5.6 and runs on Android devices.
 
