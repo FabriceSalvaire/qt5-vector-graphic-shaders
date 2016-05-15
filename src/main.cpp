@@ -26,6 +26,8 @@
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQuickWindow>
+#include <QSurfaceFormat>
 #include <QtDebug>
 #include <QtQml>
 
@@ -36,7 +38,11 @@
 int
 main(int argc, char *argv[])
 {
-  QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+  QSurfaceFormat surface_format;
+  // surface_format.setSamples(4); // max is 8 ?
+  QSurfaceFormat::setDefaultFormat(surface_format);
+
+  // QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
   QGuiApplication application(argc, argv);
 
@@ -46,6 +52,14 @@ main(int argc, char *argv[])
   engine.load(QUrl("qrc:/pages/main.qml"));
   if (engine.rootObjects().isEmpty())
     return EXIT_FAILURE;
+
+  for (auto * obj : engine.rootObjects()) {
+    QQuickWindow * window = qobject_cast<QQuickWindow *>(obj);
+    if (window != NULL) {
+      QSurfaceFormat format = window->format();
+      qInfo() << "QQuickWindow found" << format;
+    }
+  }
 
   return application.exec();
 }

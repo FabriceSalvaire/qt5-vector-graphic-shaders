@@ -2,21 +2,21 @@ import QtQuick 2.6
 import QtQuick.Window 2.2
 
 import QtQuick.Layouts 1.3
-import Qt.labs.controls 1.0
-import Qt.labs.controls.material 1.0
-import Qt.labs.settings 1.0
+import QtQuick.Controls 2.0
 
 ApplicationWindow {
     id: application_window
     visible: true
-    width: 360 // set window size for desktop test
-    height: 520
     title: "Shader Test"
+
+    // Set window size for desktop test
+    width: 800
+    height: 800
 
     Component.onCompleted: {
         console.info(Screen.height, Screen.width,
-                     Screen.desktopAvailableHeight, Screen.desktopAvailableWidth,
-                     Screen.pixelDensity, Screen.devicePixelRatio);
+        Screen.desktopAvailableHeight, Screen.desktopAvailableWidth,
+        Screen.pixelDensity, Screen.devicePixelRatio);
     }
 
     header: ToolBar {
@@ -91,75 +91,70 @@ ApplicationWindow {
 
     Drawer {
         id: drawer
+        width: Math.min(application_window.width, application_window.height) / 3 * 2
+        height: application_window.height
 
-        Pane {
-            padding: 0
-            width: Math.min(application_window.width, application_window.height) / 3 * 2
-            height: application_window.height
+        ListView {
+            id: list_view
+            currentIndex: -1
+            anchors.fill: parent
 
-            ListView {
-                id: list_view
-                currentIndex: -1
-                anchors.fill: parent
-
-                delegate: ItemDelegate {
-                    width: parent.width
-                    font.pixelSize: 16
-                    text: model.title
-                    highlighted: ListView.isCurrentItem
-                    onClicked: {
-                        if (list_view.currentIndex != index) {
-                            list_view.currentIndex = index
-                            title_label.text = model.title
-                            stack_view.replace(model.source)
-                        }
-                        drawer.close()
+            delegate: ItemDelegate {
+                width: parent.width
+                font.pixelSize: 16
+                text: model.title
+                highlighted: ListView.isCurrentItem
+                onClicked: {
+                    if (list_view.currentIndex != index) {
+                        list_view.currentIndex = index
+                        title_label.text = model.title
+                        stack_view.replace(model.source)
                     }
+                    drawer.close()
                 }
-
-                model: ListModel {
-                    ListElement {
-                        title: qsTr("Marker")
-                        icon: ""
-                        source: "qrc:/pages/Marker.qml"
-                    }
-                    ListElement {
-                        title: qsTr("Arrow Fields")
-                        icon: ""
-                       source: "qrc:/pages/ArrowFields.qml"
-                   }
-                    ListElement {
-                        title: qsTr("Quadratic Bezier")
-                        icon: ""
-                        source: "qrc:/pages/QuadraticBezier.qml"
-                    }
-                    ListElement {
-                        title: qsTr("Grid")
-                        icon: ""
-                        source: "qrc:/pages/Grid.qml"
-                    }
-                    ListElement {
-                        title: qsTr("Polar Grid")
-                        icon: ""
-                        source: "qrc:/pages/PolarGrid.qml"
-                    }
-                   ListElement {
-                        title: qsTr("Hammer Grid")
-                        icon: ""
-                        source: "qrc:/pages/HammerGrid.qml"
-                    }
-                    ListElement {
-                        title: qsTr("Transverse Mercator Grid")
-                        icon: ""
-                       source: "qrc:/pages/TransverseMercatorGrid.qml"
-                   }
-                }
-
-                ScrollIndicator.vertical: ScrollIndicator {}
             }
-        }
 
-        // onClicked: close()
+            model: ListModel {
+                ListElement {
+                    title: qsTr("Marker")
+                    icon: ""
+                    source: "qrc:/pages/Marker.qml"
+                }
+                ListElement {
+                    title: qsTr("Arrow Fields")
+                    icon: ""
+                    source: "qrc:/pages/ArrowFields.qml"
+                }
+                // Fix: GLSL version
+                // ListElement {
+                //     title: qsTr("Quadratic Bezier")
+                //     icon: ""
+                //     source: "qrc:/pages/QuadraticBezier.qml"
+                // }
+                ListElement {
+                    title: qsTr("Grid")
+                    icon: ""
+                    source: "qrc:/pages/Grid.qml"
+                }
+                ListElement {
+                    title: qsTr("Polar Grid")
+                    icon: ""
+                    source: "qrc:/pages/PolarGrid.qml"
+                }
+                ListElement {
+                    title: qsTr("Hammer Grid")
+                    icon: ""
+                    source: "qrc:/pages/HammerGrid.qml"
+                }
+                ListElement {
+                    title: qsTr("Transverse Mercator Grid")
+                    icon: ""
+                    source: "qrc:/pages/TransverseMercatorGrid.qml"
+                }
+            }
+
+            ScrollIndicator.vertical: ScrollIndicator {}
+        }
     }
 
     StackView {
@@ -179,7 +174,7 @@ ApplicationWindow {
         y: application_window.height / 6
         width: Math.min(application_window.width, application_window.height) / 3 * 2
         contentHeight: about_column.height
-        closePolicy: Popup.OnEscape | Popup.OnPressOutside
+        // closePolicy: Popup.OnEscape | Popup.OnPressOutside
 
         Column {
             id: about_column

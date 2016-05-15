@@ -17,6 +17,6 @@
     <file>pages/QuadraticBezier.qml</file>
     <file>pages/TransverseMercatorGrid.qml</file>
     <file>pages/main.qml</file>
-    <file>qtlabscontrols.conf</file>
+    <file>qtquickcontrols2.conf</file>
   </qresource>
 </RCC>

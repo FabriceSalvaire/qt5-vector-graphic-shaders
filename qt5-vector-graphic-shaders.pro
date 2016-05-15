@@ -10,7 +10,7 @@ CONFIG += debug console qml_debug
 # CONFIG += qtquickcompiler
 
 QT += core
-QT += qml quick
+QT += qml quick quickcontrols2
 
 INCLUDEPATH += src
 
