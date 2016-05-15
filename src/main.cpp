@@ -42,7 +42,8 @@ main(int argc, char *argv[])
   // surface_format.setSamples(4); // max is 8 ?
   QSurfaceFormat::setDefaultFormat(surface_format);
 
-  // QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+  // Scale ...
+  QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
   QGuiApplication application(argc, argv);
 

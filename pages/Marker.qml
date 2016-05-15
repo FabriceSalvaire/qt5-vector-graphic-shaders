@@ -257,7 +257,7 @@ float marker_tag(vec2 P, float size)
 void main()
 {
   const float linewidth = 1.5;
-  const float antialias = 2.0; // or 1
+  const float antialias = 1.0; // or 1
 
   const float rows = 4.0;
   const float cols = 9.0;
