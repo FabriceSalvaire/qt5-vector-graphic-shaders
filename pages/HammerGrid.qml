@@ -3,8 +3,7 @@ import QtQuick 2.6
 import QtQuick.Window 2.2
 
 import QtQuick.Layouts 1.1
-import Qt.labs.controls 1.0
-import Qt.labs.controls.material 1.0
+import QtQuick.Controls 2.0
 
 Pane {
     id: hammer_grid_pane
@@ -34,7 +33,7 @@ attribute highp vec4 qt_Vertex;
 attribute highp vec2 qt_MultiTexCoord0;
 varying highp vec2 v_texcoord;
 void main() {
-  v_texcoord = qt_MultiTexCoord0; // - vec2(.5, .5);
+  v_texcoord = qt_MultiTexCoord0 - vec2(.5, .5); // to center
   gl_Position = qt_Matrix * qt_Vertex;
 }
 "
@@ -43,8 +42,9 @@ void main() {
 // Nicolas P. Rougier (http://www.loria.fr/~rougier)
 // Released under BSD license.
 
+// -----------------------------------------------------------------------------
+
 // Uniforms
-// ------------------------------------
 
 // Line antialias area (usually 1 pixel)
 // uniform float u_antialias;
@@ -52,21 +52,23 @@ void main() {
 // Viewport resolution
 uniform vec2 u_viewport_resolution;
 
+// -----------------------------------------------------------------------------
+
 // Varyings
-// ------------------------------------
 
 // Texture coordinates (from (-0.5, -0.5) to (+0.5, +0.5)
 varying vec2 v_texcoord;
 
-// ------------------------------------
+// -----------------------------------------------------------------------------
 
 // Constants
+
 const float M_PI    = 3.14159265358979323846;
 const float M_SQRT2 = 1.41421356237309504880;
 
-// -------------------------------------------------
+// -----------------------------------------------------------------------------
+
 // Hammer forward transform
-// ------------------------
 vec2 transform_forward(vec2 P)
 {
   const float B = 2.0;
@@ -83,7 +85,6 @@ vec2 transform_forward(vec2 P)
 }
 
 // Hammer Inverse transform
-// ------------------------
 vec2 transform_inverse(vec2 P)
 {
   const float B = 2.0;
@@ -97,10 +98,8 @@ vec2 transform_inverse(vec2 P)
   float lat = asin(z*y);
   return vec2(lon,lat);
 }
-// -------------------------------------------------
 
 // [-0.5,-0.5]x[0.5,0.5] -> [xmin,xmax]x[ymin,ymax]
-// ------------------------------------------------
 vec2 scale_forward(vec2 P, vec4 limits)
 {
   // limits = xmin,xmax,ymin,ymax
@@ -111,7 +110,6 @@ vec2 scale_forward(vec2 P, vec4 limits)
 }
 
 // [xmin,xmax]x[ymin,ymax] -> [-0.5,-0.5]x[0.5,0.5]
-// ------------------------------------------------
 vec2 scale_inverse(vec2 P, vec4 limits)
 {
   // limits = xmin,xmax,ymin,ymax
@@ -151,17 +149,20 @@ float get_tick(float t, float vmin, float vmax, float step)
   return min(max(vmin,tick),vmax);
 }
 
+// -----------------------------------------------------------------------------
+
 void main()
 {
- float iGlobalTime = .0;
+ // float iGlobalTime = .0;
 
   // Cartesian limits
   vec4 u_limits1 = vec4(-3., +3., -1.5, +1.5);
 
   // Projected limits
-  vec4 u_limits2 = vec4(-M_PI, M_PI- M_PI*(1.+cos(iGlobalTime))/2.0,
-                        -M_PI/2. + (1.+cos(iGlobalTime))/2.*M_PI/4.,
-                        +M_PI/2. - (1.+cos(iGlobalTime/2.))/2.*M_PI/4.);
+  // vec4 u_limits2 = vec4(-M_PI, M_PI - M_PI*(1.+cos(iGlobalTime))/2.0,
+  //                       -M_PI/2. + (1.+cos(iGlobalTime))/2.*M_PI/4.,
+  //                       +M_PI/2. - (1.+cos(iGlobalTime/2.))/2.*M_PI/4.);
+  vec4 u_limits2 = vec4(-M_PI, M_PI, -M_PI/2., +M_PI/2.);
 
   const float u_antialias = 1.0;
   vec2 u_major_grid_step = vec2(M_PI/4.0,  M_PI/6.0);

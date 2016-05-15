@@ -3,8 +3,7 @@ import QtQuick 2.6
 import QtQuick.Window 2.2
 
 import QtQuick.Layouts 1.1
-import Qt.labs.controls 1.0
-import Qt.labs.controls.material 1.0
+import QtQuick.Controls 2.0
 
 Pane {
     id: grid_pane
@@ -52,7 +51,7 @@ attribute highp vec4 qt_Vertex;
 attribute highp vec2 qt_MultiTexCoord0;
 varying highp vec2 v_texcoord;
 void main() {
-  v_texcoord = qt_MultiTexCoord0 - vec2(.5, .5);
+  v_texcoord = qt_MultiTexCoord0 - vec2(.5, .5); // to center
   gl_Position = qt_Matrix * qt_Vertex;
 }
 "
@@ -61,46 +60,47 @@ void main() {
 // Nicolas P. Rougier (http://www.loria.fr/~rougier)
 // Released under BSD license.
 
+// -----------------------------------------------------------------------------
 // Uniforms
-// ------------------------------------
 
 // Line antialias area (usually 1 pixel)
-uniform float u_antialias;
+uniform highp float u_antialias;
 
 // Cartesian limits
-uniform vec4 u_limits1;
+uniform highp vec4 u_limits1;
 
 // Projected limits
-uniform vec4 u_limits2;
+uniform highp vec4 u_limits2;
 
 // Major grid steps
-uniform vec2 u_major_grid_step;
+uniform highp vec2 u_major_grid_step;
 
 // Minor grid steps
-uniform vec2 u_minor_grid_step;
+uniform highp vec2 u_minor_grid_step;
 
 // Major grid line width (1.50 pixel)
-uniform float u_major_grid_width;
+uniform highp float u_major_grid_width;
 
 // Minor grid line width (0.75 pixel)
-uniform float u_minor_grid_width;
+uniform highp float u_minor_grid_width;
 
 // Major grid line color
-uniform vec4 u_major_grid_color;
+uniform highp vec4 u_major_grid_color;
 
 // Minor grid line color
-uniform vec4 u_minor_grid_color;
+uniform highp vec4 u_minor_grid_color;
 
 // Viewport resolution
-uniform vec2 u_viewport_resolution;
+uniform highp vec2 u_viewport_resolution;
 
+// -----------------------------------------------------------------------------
 // Varyings
-// ------------------------------------
 
 // Texture coordinates (from (-0.5, -0.5) to (+0.5, +0.5)
-varying vec2 v_texcoord;
+varying highp vec2 v_texcoord;
 
-// -------------------------------------------------
+// -----------------------------------------------------------------------------
+
 // Forward cartesian projection
 vec2 transform_forward(vec2 P)
 {
@@ -112,10 +112,8 @@ vec2 transform_inverse(vec2 P)
 {
   return P;
 }
-// -------------------------------------------------
 
 // [-0.5, -0.5]x[0.5, 0.5] -> [xmin,xmax]x[ymin,ymax]
-// ------------------------------------------------
 vec2 scale_forward(vec2 P, vec4 limits)
 {
   // limits = xmin,xmax,ymin,ymax
@@ -126,7 +124,6 @@ vec2 scale_forward(vec2 P, vec4 limits)
 }
 
 // [xmin,xmax]x[ymin,ymax] -> [-0.5, -0.5]x[0.5, 0.5]
-// ------------------------------------------------
 vec2 scale_inverse(vec2 P, vec4 limits)
 {
   // limits = xmin, xmax, ymin, ymax
@@ -165,6 +162,8 @@ float get_tick(float t, float vmin, float vmax, float step)
   tick = floor(tick/step)*step;
   return min(max(vmin, tick), vmax);
 }
+
+// -----------------------------------------------------------------------------
 
 void main()
 {

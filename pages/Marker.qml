@@ -3,8 +3,7 @@ import QtQuick 2.6
 import QtQuick.Window 2.2
 
 import QtQuick.Layouts 1.1
-import Qt.labs.controls 1.0
-import Qt.labs.controls.material 1.0
+import QtQuick.Controls 2.0
 
 Pane {
     id: marker_pane
@@ -26,9 +25,18 @@ Pane {
             height: parent.height
             blending: false
 
+            property var u_angle;
+            NumberAnimation on u_angle {
+                duration: 500 * 1000
+                loops: Animation.Infinite
+                from: 0
+                to: 360
+            }
+
             property var u_viewport_resolution : Qt.vector2d(width, height)
 
             vertexShader: "
+uniform highp float u_angle;
 uniform highp vec2 u_viewport_resolution;
 uniform highp mat4 qt_Matrix;
 attribute highp vec4 qt_Vertex;
@@ -44,8 +52,10 @@ void main() {
 // Nicolas P. Rougier (http://www.loria.fr/~rougier)
 // Released under BSD license.
 
+// -----------------------------------------------------------------------------
 // Uniforms
-// ------------------------------------
+
+uniform highp float u_angle;
 
 // Line antialias area (usually 1 pixel)
 // uniform float u_antialias;
@@ -53,16 +63,18 @@ void main() {
 // Viewport resolution
 uniform highp vec2 u_viewport_resolution;
 
+// -----------------------------------------------------------------------------
 // Varyings
-// ------------------------------------
 
 // Texture coordinates (from (-0.5, -0.5) to (+0.5, +0.5)
 varying vec2 v_texcoord;
 
-// ------------------------------------
+// -----------------------------------------------------------------------------
 
 const float M_PI = 3.14159265358979323846;
 const float SQRT_2 = 1.4142135623730951;
+
+// -----------------------------------------------------------------------------
 
 vec4 stroke(float distance, float linewidth, float antialias, vec4 stroke)
 {
@@ -240,10 +252,12 @@ float marker_tag(vec2 P, float size)
   return max(r1,.75*r2);
 }
 
+// -----------------------------------------------------------------------------
+
 void main()
 {
   const float linewidth = 1.5;
-  const float antialias = 2.0; // was 1
+  const float antialias = 2.0; // or 1
 
   const float rows = 4.0;
   const float cols = 9.0;
@@ -253,7 +267,7 @@ void main()
   vec2 center = (floor(texcoord/size) + vec2(0.5,0.5)) * size;
   texcoord -= center;
 
-  float theta = .0;
+  float theta = u_angle;
 
   float cos_theta = cos(theta);
   float sin_theta = sin(theta);
@@ -299,6 +313,9 @@ void main()
     gl_FragColor = outline(d, linewidth, antialias, vec4(1,1,1,1), vec4(.75,.75,.75,1));
   else
     gl_FragColor = filled(d, linewidth, antialias, vec4(1,1,1,1));
+
+  // Invert color since background is white
+  gl_FragColor = vec4(1) - gl_FragColor;
 }
 "
         }

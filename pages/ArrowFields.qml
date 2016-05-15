@@ -3,8 +3,7 @@ import QtQuick 2.6
 import QtQuick.Window 2.2
 
 import QtQuick.Layouts 1.1
-import Qt.labs.controls 1.0
-import Qt.labs.controls.material 1.0
+import QtQuick.Controls 2.0
 
 Pane {
     id: arrow_field_pane
@@ -12,23 +11,23 @@ Pane {
     Rectangle {
         anchors.fill: parent
 
-        // property var angle;
-        // rotation: angle
-        // RotationAnimation on angle {
-        //     duration: 10000
-        //     loops: Animation.Infinite
-        //     from: 0
-        //     to: 360
-        // }
-
         ShaderEffect {
             width: parent.width
             height: parent.height
             blending: false
 
+            property var u_angle;
+            NumberAnimation on u_angle {
+                duration: 500 * 1000
+                loops: Animation.Infinite
+                from: 0
+                to: 360
+            }
+
             property var u_viewport_resolution : Qt.vector2d(width, height)
 
             vertexShader: "
+uniform highp float u_angle;
 uniform highp vec2 u_viewport_resolution;
 uniform highp mat4 qt_Matrix;
 attribute highp vec4 qt_Vertex;
@@ -45,7 +44,8 @@ void main() {
 // Released under BSD license.
 
 // Uniforms
-// ------------------------------------
+
+uniform highp float u_angle;
 
 // Line antialias area (usually 1 pixel)
 // uniform float u_antialias;
@@ -54,12 +54,9 @@ void main() {
 uniform highp vec2 u_viewport_resolution;
 
 // Varyings
-// ------------------------------------
 
 // Texture coordinates (from (-0.5, -0.5) to (+0.5, +0.5)
 varying vec2 v_texcoord;
-
-// ------------------------------------
 
 // Inspired by by 2D vector field visualization by Morgan McGuire
 // (https://www.shadertoy.com/view/4s23DG)
@@ -305,7 +302,7 @@ void main()
   vec2 center = (floor(texcoord/size) + vec2(0.5,0.5)) * size;
   texcoord -= center;
 
-  float theta = .0; // (iGlobalTime/2.0) + 0.05*(center.x / cols + center.y / rows);
+  float theta = u_angle; // (iGlobalTime/2.0) + 0.05*(center.x / cols + center.y / rows);
   float cos_theta = cos(theta);
   float sin_theta = sin(theta);
   texcoord = vec2(cos_theta*texcoord.x - sin_theta*texcoord.y,
@@ -333,6 +330,9 @@ void main()
     gl_FragColor = filled(d, linewidth, antialias, vec4(1,1,1,1));
   else
     gl_FragColor = stroke(d, linewidth, antialias, vec4(1,1,1,1));
+
+  // Invert color since background is white
+  gl_FragColor = vec4(1) - gl_FragColor;
 }
 "
         }
