@@ -10,7 +10,7 @@ This Qt5/QML application implements OpenGL ES 2.0 GLSL shaders rendering the fol
 * [hammer grid](https://www.shadertoy.com/view/ldSXRm)
 * [transverse mercator grid](https://www.shadertoy.com/view/lsSXzm)
 
-This applicatation requires Qt 5.7 and runs on Android devices.
+This application requires Qt 5.7 and runs on Android devices.
 
 ![Marker](/screenshots/marker.png)
 ![Arrow field](/screenshots/arrow-field.png)
